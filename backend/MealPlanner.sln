@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealPlanner.Api", "MealPlanner.Api\MealPlanner.Api.csproj", "{033DDAF1-8AF4-45E0-B355-899DA8203D82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealPlanner.Core", "MealPlanner.Core\MealPlanner.Core.csproj", "{C37D82FE-6847-4E55-8405-C24C95DF3532}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MealPlanner.Data", "MealPlanner.Data\MealPlanner.Data.csproj", "{D45B44C9-AA61-4C70-8C57-896BE6D266FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{033DDAF1-8AF4-45E0-B355-899DA8203D82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{033DDAF1-8AF4-45E0-B355-899DA8203D82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{033DDAF1-8AF4-45E0-B355-899DA8203D82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{033DDAF1-8AF4-45E0-B355-899DA8203D82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C37D82FE-6847-4E55-8405-C24C95DF3532}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C37D82FE-6847-4E55-8405-C24C95DF3532}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C37D82FE-6847-4E55-8405-C24C95DF3532}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C37D82FE-6847-4E55-8405-C24C95DF3532}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D45B44C9-AA61-4C70-8C57-896BE6D266FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D45B44C9-AA61-4C70-8C57-896BE6D266FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D45B44C9-AA61-4C70-8C57-896BE6D266FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D45B44C9-AA61-4C70-8C57-896BE6D266FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

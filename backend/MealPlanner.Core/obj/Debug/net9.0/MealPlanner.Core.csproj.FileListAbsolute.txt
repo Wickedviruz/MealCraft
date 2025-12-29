@@ -1,0 +1,11 @@
+C:\dev\meal-planner\backend\MealPlanner.Core\bin\Debug\net9.0\MealPlanner.Core.deps.json
+C:\dev\meal-planner\backend\MealPlanner.Core\bin\Debug\net9.0\MealPlanner.Core.dll
+C:\dev\meal-planner\backend\MealPlanner.Core\bin\Debug\net9.0\MealPlanner.Core.pdb
+C:\dev\meal-planner\backend\MealPlanner.Core\obj\Debug\net9.0\MealPlanner.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\dev\meal-planner\backend\MealPlanner.Core\obj\Debug\net9.0\MealPlanner.Core.AssemblyInfoInputs.cache
+C:\dev\meal-planner\backend\MealPlanner.Core\obj\Debug\net9.0\MealPlanner.Core.AssemblyInfo.cs
+C:\dev\meal-planner\backend\MealPlanner.Core\obj\Debug\net9.0\MealPlanner.Core.csproj.CoreCompileInputs.cache
+C:\dev\meal-planner\backend\MealPlanner.Core\obj\Debug\net9.0\MealPlanner.Core.dll
+C:\dev\meal-planner\backend\MealPlanner.Core\obj\Debug\net9.0\refint\MealPlanner.Core.dll
+C:\dev\meal-planner\backend\MealPlanner.Core\obj\Debug\net9.0\MealPlanner.Core.pdb
+C:\dev\meal-planner\backend\MealPlanner.Core\obj\Debug\net9.0\ref\MealPlanner.Core.dll
