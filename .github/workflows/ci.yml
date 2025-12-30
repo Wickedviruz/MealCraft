@@ -3,22 +3,8 @@ name: CI/CD Pipeline
 on:
   pull_request:
     branches: [ main, develop ]
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-      - '.github/**'
-      - '.gitignore'
-      - 'LICENSE'
-      - '**.txt'
   push:
     branches: [ main, develop ]
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-      - '.github/**'
-      - '.gitignore'
-      - 'LICENSE'
-      - '**.txt'
 
 jobs:
   backend-build:
