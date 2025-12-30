@@ -20,6 +20,16 @@ yarn-error.log*
 EOF
 
 # backend
+backend/**/bin/
+backend/**/obj/
+backend/**/Debug/
+backend/**/Release/
+**/bin/
+**/obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
 
 #frontend 
 node_modules

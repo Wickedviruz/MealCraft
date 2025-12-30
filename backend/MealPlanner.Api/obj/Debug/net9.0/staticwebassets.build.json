@@ -1,12 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "OAEjHtj+6PoZ7mxeNw3C5aS4rg3xvEgZ7FSNmrtsbpE=",
-  "Source": "MealPlanner.Api",
-  "BasePath": "_content/MealPlanner.Api",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
-}
+{"Version":1,"Hash":"574yooj3x1Lv1Ml30iabfL5Sp7ycfdPcrVcp1C8ugvY=","Source":"MealPlanner.Api","BasePath":"/","Mode":"Root","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}

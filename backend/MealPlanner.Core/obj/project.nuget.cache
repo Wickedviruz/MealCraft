@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "IKJGli7A4fQ=",
+  "dgSpecHash": "SLUwG5TyrkA=",
   "success": true,
-  "projectFilePath": "C:\\dev\\meal-planner\\backend\\MealPlanner.Core\\MealPlanner.Core.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\dev\\MealCraft\\backend\\MealPlanner.Core\\MealPlanner.Core.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\johan\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.11\\microsoft.netcore.app.ref.9.0.11.nupkg.sha512",
+    "C:\\Users\\johan\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.11\\microsoft.windowsdesktop.app.ref.9.0.11.nupkg.sha512",
+    "C:\\Users\\johan\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.11\\microsoft.aspnetcore.app.ref.9.0.11.nupkg.sha512"
+  ],
   "logs": []
 }

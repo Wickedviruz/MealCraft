@@ -1,18 +1,13 @@
 {
-  "name": "meal-planner",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "MealCraft",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "install:all": "npm --prefix frontend install && dotnet restore backend",
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:backend": "cd backend/MealPlanner.Api && dotnet run",
-    "dev:frontend": "cd frontend && npm run dev"
+    "dev:backend": "dotnet run --project backend/MealPlanner.Api",
+    "dev:frontend": "npm --prefix frontend run dev"
   },
-    "devDependencies": {
+  "devDependencies": {
     "concurrently": "^9.2.1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  }
 }
