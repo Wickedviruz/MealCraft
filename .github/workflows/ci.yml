@@ -1,0 +1,84 @@
+name: CI/CD Pipeline
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.github/**'
+      - '.gitignore'
+      - 'LICENSE'
+      - '**.txt'
+  push:
+    branches: [ main, develop ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.github/**'
+      - '.gitignore'
+      - 'LICENSE'
+      - '**.txt'
+
+jobs:
+  backend-build:
+    name: Backend Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        dotnet-version: ['9.0.x']
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+    
+    - name: Restore dependencies
+      run: dotnet restore backend/MealPlanner.sln
+      
+    - name: Build
+      run: dotnet build backend/MealPlanner.sln --no-restore --configuration Release
+
+  frontend-build:
+    name: Frontend Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node-version: [20.x]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+    
+    - name: Install dependencies
+      run: npm ci
+      working-directory: ./frontend
+      
+    - name: Lint
+      run: npm run lint
+      working-directory: ./frontend
+      continue-on-error: true
+      
+    - name: Build
+      run: npm run build
+      working-directory: ./frontend
+
+  all-checks:
+    name: All Checks Passed
+    needs: [backend-build, frontend-build]
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Verify all builds succeeded
+      run: echo "All builds passed successfully!"
