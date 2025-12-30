@@ -19,17 +19,20 @@ yarn-debug.log*
 yarn-error.log*
 EOF
 
-# backend
-backend/**/bin/
-backend/**/obj/
-backend/**/Debug/
-backend/**/Release/
+# C# Build outputs
 **/bin/
 **/obj/
-*.user
+**/Debug/
+**/Release/
+
+# Build artifacts
+*.dll
+*.exe
+*.pdb
+*.cache
 *.suo
-*.userosscache
-*.sln.docstates
+*.user
+
 
 #frontend 
 node_modules
