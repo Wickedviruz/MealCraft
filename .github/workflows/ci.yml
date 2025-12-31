@@ -24,10 +24,10 @@ jobs:
         dotnet-version: ${{ matrix.dotnet-version }}
     
     - name: Restore dependencies
-      run: dotnet restore backend/MealPlanner.sln
+      run: dotnet restore backend/MealCraft.sln
       
     - name: Build
-      run: dotnet build backend/MealPlanner.sln --no-restore --configuration Release
+      run: dotnet build backend/MealCraft.sln --no-restore --configuration Release
 
   frontend-build:
     name: Frontend Build
