@@ -20,11 +20,46 @@ const emit = defineEmits(['like', 'dislike'])
 </script>
 
 <style scoped>
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(140, 195, 105, 0.4);
+  }
+}
+
+@keyframes pulseDislike {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.1);
+  }
+}
+
 .swipe-buttons {
   display: flex;
   gap: 2rem;
   justify-content: center;
   margin-top: 2rem;
+  position: relative;
+  z-index: 10;
 }
 
 .btn {
@@ -33,15 +68,32 @@ const emit = defineEmits(['like', 'dislike'])
   border-radius: 50%;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3), transparent);
+  transform: scale(0);
+  transition: transform 0.5s ease;
+}
+
+.btn:active::before {
+  transform: scale(2);
+  transition: transform 0s;
 }
 
 .btn:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -52,6 +104,13 @@ const emit = defineEmits(['like', 'dislike'])
 .btn svg {
   width: 32px;
   height: 32px;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.btn:hover svg {
+  transform: scale(1.1);
 }
 
 .btn-dislike {
@@ -61,14 +120,21 @@ const emit = defineEmits(['like', 'dislike'])
 
 .btn-dislike:hover {
   background: #fff5f5;
+  animation: pulseDislike 1.5s ease-in-out infinite;
 }
 
 .btn-like {
-  background: #8CB369;
+  background: linear-gradient(135deg, #8CB369 0%, #7aa359 100%);
   color: white;
+  box-shadow: 0 4px 15px rgba(140, 195, 105, 0.3);
 }
 
 .btn-like:hover {
-  background: #7aa359;
+  background: linear-gradient(135deg, #7aa359 0%, #6a9e4d 100%);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.btn-like:hover svg {
+  animation: heartbeat 1s ease-in-out infinite;
 }
 </style>
