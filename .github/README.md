@@ -4,7 +4,7 @@
 ---
 [MealCraft Home][1] | [Documentation][2]
 
-MealCraft is a free and open source under [LISENCE](https://github.com/Wickedviruz/MealCraft?tab=MIT-1-ov-file)
+MealCraft is a free and open source under [MIT lisence](https://github.com/Wickedviruz/MealCraft?tab=MIT-1-ov-file)
 
 ## 📚 Documentation
 

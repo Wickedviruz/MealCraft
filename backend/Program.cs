@@ -6,8 +6,6 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// THIS IS AN UPDATE TO TRIGGER THE TEST
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

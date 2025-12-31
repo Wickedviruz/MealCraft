@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Navbar />
     <main class="main-content">
       <h1>MealCraft</h1>
       <p>Smart meal planning coming soon...</p>
@@ -10,6 +11,7 @@
 
 <script setup>
 import Footer from './components/Footer.vue'
+import Navbar from './components/Navbar.vue';
 </script>
 
 <style scoped>
