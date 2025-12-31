@@ -136,9 +136,9 @@ import SavedRecipes from './components/SavedRecipes.vue'
 import WeeklyCalendar from './components/WeeklyCalendar.vue'
 import ShoppingList from './components/ShoppingList.vue'
 import BottomNav from './components/BottomNav.vue'
-import RecipeBrowser from './components/Recipebrowser.vue'
-import RecipeDetail from './components/Recipedetail.vue'
-import AddRecipe from './components/Addrecipe.vue'
+import RecipeBrowser from './components/RecipeBrowser.vue'
+import RecipeDetail from './components/RecipeDetail.vue'
+import AddRecipe from './components/AddRecipe.vue'
 
 // State
 const currentView = ref('discover')
