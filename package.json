@@ -4,7 +4,7 @@
   "scripts": {
     "install:all": "npm --prefix frontend install && dotnet restore backend",
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:backend": "dotnet run --project backend/MealPlanner.Api",
+    "dev:backend": "cd backend && dotnet run",
     "dev:frontend": "npm --prefix frontend run dev"
   },
   "devDependencies": {
