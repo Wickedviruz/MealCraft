@@ -10,6 +10,7 @@ backend/
     DTOs/            # API contracts (Data Transfer Objects)
     Api/             # Controllers
     Services/        # Business logic
+    Middleware/      # Middlewares
     Database/        # Database context & migrations
     Program.cs       # Entry point
     appsettings.json # Configuration
@@ -20,13 +21,7 @@ backend/
 ### 1. PostgreSQL Database
 
 ```bash
-Start PostgreSQL with Docker:
-bashdocker run --name mealcraft-db \
-  -e POSTGRES_PASSWORD=dev123 \
-  -e POSTGRES_DB=mealcraft \
-  -e POSTGRES_USER=mealcraft \
-  -p 5432:5432 \
-  -d postgres:16
+
 ```
 
 ### 2. Run Migrations
