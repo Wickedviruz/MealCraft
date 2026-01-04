@@ -1,69 +1,154 @@
 <template>
-  <div class="weekly-calendar">
-    <div class="calendar-header">
-      <h2>Veckokalender</h2>
-      <div class="week-nav">
-        <button @click="previousWeek" class="btn-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+  <div style="padding: 24px 16px; max-width: 1400px; margin: 0 auto; background: #fefdf8; min-height: 100vh;">
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+      <h2 style="font-size: 32px; font-weight: 800; color: #1f2937;">Veckokalender</h2>
+      
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <button 
+          @click="previousWeek"
+          style="width: 40px; height: 40px; border-radius: 50%; background: #f3f4f6; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;"
+          @mouseenter="$event.target.style.background = '#e5e7eb'"
+          @mouseleave="$event.target.style.background = '#f3f4f6'"
+        >
+          <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </button>
-        <span class="week-label">{{ weekLabel }}</span>
-        <button @click="nextWeek" class="btn-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        
+        <span style="font-weight: 700; min-width: 140px; text-align: center; color: #1f2937; font-size: 16px;">
+          {{ weekLabel }}
+        </span>
+        
+        <button 
+          @click="nextWeek"
+          style="width: 40px; height: 40px; border-radius: 50%; background: #f3f4f6; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;"
+          @mouseenter="$event.target.style.background = '#e5e7eb'"
+          @mouseleave="$event.target.style.background = '#f3f4f6'"
+        >
+          <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="9 18 15 12 9 6"/>
           </svg>
         </button>
       </div>
     </div>
-    
-    <div class="calendar-grid">
-      <!-- Days header -->
-      <div class="grid-header">
-        <div class="meal-types-col">
-          <div class="meal-type-label">Måltid</div>
+
+    <!-- Meal Type Filters -->
+    <div style="background: white; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="font-size: 18px; font-weight: 700; color: #1f2937;">Visa måltider</h3>
+        <div style="display: flex; gap: 8px;">
+          <button 
+            @click="selectAllMeals"
+            style="padding: 6px 12px; background: #d1fae5; color: #047857; border: none; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s;"
+            @mouseenter="$event.target.style.background = '#a7f3d0'"
+            @mouseleave="$event.target.style.background = '#d1fae5'"
+          >
+            Välj alla
+          </button>
+          <button 
+            @click="deselectAllMeals"
+            style="padding: 6px 12px; background: #fee2e2; color: #991b1b; border: none; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s;"
+            @mouseenter="$event.target.style.background = '#fecaca'"
+            @mouseleave="$event.target.style.background = '#fee2e2'"
+          >
+            Rensa alla
+          </button>
         </div>
+      </div>
+
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button 
+          v-for="mealType in allMealTypes" 
+          :key="mealType.value"
+          @click="toggleMealType(mealType.value)"
+          style="padding: 10px 20px; border-radius: 20px; font-weight: 600; border: 2px solid; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; font-size: 14px;"
+          :style="visibleMealTypes.includes(mealType.value)
+            ? 'background: #10b981; color: white; border-color: #10b981; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);'
+            : 'background: white; color: #6b7280; border-color: #e5e7eb;'"
+          @mouseenter="visibleMealTypes.includes(mealType.value) ? $event.target.style.background = '#059669' : $event.target.style.background = '#f9fafb'"
+          @mouseleave="visibleMealTypes.includes(mealType.value) ? $event.target.style.background = '#10b981' : $event.target.style.background = 'white'"
+        >
+          <span style="font-size: 18px;">{{ mealType.icon }}</span>
+          <span>{{ mealType.label }}</span>
+        </button>
+      </div>
+
+      <p style="margin-top: 12px; font-size: 13px; color: #6b7280;">
+        {{ visibleMealTypes.length }} av {{ allMealTypes.length }} måltider valda
+      </p>
+    </div>
+    
+    <!-- Calendar Grid -->
+    <div style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+      <!-- Header Row -->
+      <div style="display: grid; border-bottom: 2px solid #e5e7eb; background: #d1fae5;" :style="`grid-template-columns: 120px repeat(7, 1fr);`">
+        <div style="border-right: 2px solid #e5e7eb; padding: 16px; text-align: center; font-weight: 700; color: #047857;">
+          Måltid
+        </div>
+        
         <div 
           v-for="day in weekDays" 
           :key="day.date"
-          class="day-header"
-          :class="{ today: isToday(day.date) }"
+          style="padding: 16px; text-align: center; border-right: 1px solid #e5e7eb; transition: all 0.2s;"
+          :style="isToday(day.date) ? 'background: #10b981; color: white;' : ''"
         >
-          <div class="day-name">{{ day.name }}</div>
-          <div class="day-date">{{ day.dayNum }}</div>
+          <div style="font-weight: 700; font-size: 14px; margin-bottom: 6px;">{{ day.name }}</div>
+          <div style="font-size: 20px; font-weight: 700;">{{ day.dayNum }}</div>
         </div>
       </div>
       
-      <!-- Meal rows -->
+      <!-- No meals selected message -->
+      <div v-if="visibleMealTypes.length === 0" style="padding: 60px 20px; text-align: center; color: #6b7280;">
+        <div style="font-size: 60px; margin-bottom: 16px;">🍽️</div>
+        <h3 style="font-size: 20px; font-weight: 700; color: #1f2937; margin-bottom: 8px;">Inga måltider valda</h3>
+        <p style="font-size: 14px;">Välj måltider ovan för att visa dem i kalendern</p>
+      </div>
+
+      <!-- Meal Rows -->
       <div 
-        v-for="mealType in mealTypes" 
+        v-for="mealType in filteredMealTypes" 
         :key="mealType.value"
-        class="meal-row"
+        style="display: grid; border-bottom: 1px solid #e5e7eb;"
+        :style="`grid-template-columns: 120px repeat(7, 1fr);`"
       >
-        <div class="meal-type-label">
+        <div style="padding: 16px; font-weight: 600; border-right: 2px solid #e5e7eb; background: #fefdf8; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 14px;">
           {{ mealType.icon }} {{ mealType.label }}
         </div>
         
         <div 
           v-for="day in weekDays" 
           :key="`${day.date}-${mealType.value}`"
-          class="meal-cell"
           @click="handleCellClick(day.date, mealType.value)"
+          style="padding: 8px; border-right: 1px solid #e5e7eb; min-height: 100px; cursor: pointer; transition: background 0.2s; position: relative;"
+          @mouseenter="$event.target.style.background = '#fefdf8'"
+          @mouseleave="$event.target.style.background = 'white'"
         >
-          <div v-if="getMeal(day.date, mealType.value)" class="meal-card">
-            <div class="meal-image">
-              <img :src="getMeal(day.date, mealType.value).imageUrl" :alt="getMeal(day.date, mealType.value).title" />
+          <!-- Meal Card -->
+          <div v-if="getMeal(day.date, mealType.value)" style="position: relative; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: all 0.2s;">
+            <div style="width: 100%; height: 60px; overflow: hidden;">
+              <img 
+                :src="getMeal(day.date, mealType.value).imageUrl" 
+                :alt="getMeal(day.date, mealType.value).title"
+                style="width: 100%; height: 100%; object-fit: cover;"
+              />
             </div>
-            <div class="meal-title">{{ getMeal(day.date, mealType.value).title }}</div>
+            <div style="padding: 6px; font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+              {{ getMeal(day.date, mealType.value).title }}
+            </div>
+            
+            <!-- Remove Button -->
             <button 
-              @click.stop="removeMeal(day.date, mealType.value)" 
-              class="remove-meal-btn"
-            >
-              ×
-            </button>
+              @click.stop="removeMeal(day.date, mealType.value)"
+              style="position: absolute; top: 4px; right: 4px; width: 24px; height: 24px; border-radius: 50%; border: none; background: rgba(239, 68, 68, 0.95); color: white; cursor: pointer; font-size: 16px; line-height: 1; opacity: 0; transition: all 0.2s; display: flex; align-items: center; justify-content: center;"
+              @mouseenter="$event.target.style.opacity = '1'; $event.target.style.transform = 'scale(1.1)'"
+              @mouseleave="$event.target.style.transform = 'scale(1)'"
+            >×</button>
           </div>
-          <div v-else class="empty-meal">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          
+          <!-- Empty Cell -->
+          <div v-else style="height: 100%; display: flex; align-items: center; justify-content: center; color: #9ca3af; opacity: 0; transition: opacity 0.2s;">
+            <svg style="width: 24px; height: 24px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="12" y1="5" x2="12" y2="19"/>
               <line x1="5" y1="12" x2="19" y2="12"/>
             </svg>
@@ -87,8 +172,9 @@ const props = defineProps({
 const emit = defineEmits(['add-meal', 'remove-meal'])
 
 const currentWeekStart = ref(getMonday(new Date()))
+const visibleMealTypes = ref(['breakfast', 'lunch', 'dinner']) // Default visible meals
 
-const mealTypes = [
+const allMealTypes = [
   { value: 'breakfast', label: 'Frukost', icon: '🌅' },
   { value: 'brunch', label: 'Brunch', icon: '🥐' },
   { value: 'lunch', label: 'Lunch', icon: '🍽️' },
@@ -96,6 +182,10 @@ const mealTypes = [
   { value: 'dinner', label: 'Middag', icon: '🌙' },
   { value: 'dessert', label: 'Dessert', icon: '🍰' }
 ]
+
+const filteredMealTypes = computed(() => {
+  return allMealTypes.filter(mt => visibleMealTypes.value.includes(mt.value))
+})
 
 const weekDays = computed(() => {
   const days = []
@@ -125,6 +215,23 @@ const weekLabel = computed(() => {
   
   return `${startStr} - ${endStr}`
 })
+
+function toggleMealType(mealTypeValue) {
+  const index = visibleMealTypes.value.indexOf(mealTypeValue)
+  if (index > -1) {
+    visibleMealTypes.value.splice(index, 1)
+  } else {
+    visibleMealTypes.value.push(mealTypeValue)
+  }
+}
+
+function selectAllMeals() {
+  visibleMealTypes.value = allMealTypes.map(mt => mt.value)
+}
+
+function deselectAllMeals() {
+  visibleMealTypes.value = []
+}
 
 function getMonday(date) {
   const d = new Date(date)
@@ -172,216 +279,14 @@ function nextWeek() {
 }
 </script>
 
-<style scoped>
-.weekly-calendar {
-  padding: var(--space-lg);
-  max-width: 1400px;
-  margin: 0 auto;
+<style>
+/* Show remove button on hover */
+div:hover > button[style*="opacity: 0"] {
+  opacity: 1 !important;
 }
 
-.calendar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-lg);
-  flex-wrap: wrap;
-  gap: var(--space-md);
-}
-
-.calendar-header h2 {
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-.week-nav {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-}
-
-.week-label {
-  font-weight: 600;
-  min-width: 120px;
-  text-align: center;
-}
-
-.calendar-grid {
-  background: var(--surface);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-}
-
-.grid-header {
-  display: grid;
-  grid-template-columns: 120px repeat(7, 1fr);
-  border-bottom: 2px solid var(--border);
-  background: var(--primary-light);
-}
-
-.meal-types-col {
-  border-right: 2px solid var(--border);
-}
-
-.day-header {
-  padding: var(--space-md);
-  text-align: center;
-  border-right: 1px solid var(--border);
-}
-
-.day-header:last-child {
-  border-right: none;
-}
-
-.day-header.today {
-  background: var(--primary);
-  color: white;
-}
-
-.day-name {
-  font-weight: 700;
-  font-size: 0.9rem;
-  margin-bottom: var(--space-xs);
-}
-
-.day-date {
-  font-size: 1.2rem;
-  font-weight: 700;
-}
-
-.meal-row {
-  display: grid;
-  grid-template-columns: 120px repeat(7, 1fr);
-  border-bottom: 1px solid var(--border);
-}
-
-.meal-row:last-child {
-  border-bottom: none;
-}
-
-.meal-type-label {
-  padding: var(--space-md);
-  font-weight: 600;
-  border-right: 2px solid var(--border);
-  background: var(--background);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.meal-cell {
-  padding: var(--space-sm);
-  border-right: 1px solid var(--border);
-  min-height: 100px;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.meal-cell:last-child {
-  border-right: none;
-}
-
-.meal-cell:hover {
-  background: var(--background);
-}
-
-.empty-meal {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-light);
-  opacity: 0;
-  transition: var(--transition);
-}
-
-.meal-cell:hover .empty-meal {
-  opacity: 1;
-}
-
-.empty-meal svg {
-  width: 24px;
-  height: 24px;
-}
-
-.meal-card {
-  position: relative;
-  background: var(--surface);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
-}
-
-.meal-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-
-.meal-image {
-  width: 100%;
-  height: 60px;
-  overflow: hidden;
-}
-
-.meal-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.meal-title {
-  padding: var(--space-xs);
-  font-size: 0.85rem;
-  font-weight: 600;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.remove-meal-btn {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  width: 24px;
-  height: 24px;
-  border-radius: var(--radius-full);
-  border: none;
-  background: rgba(255, 107, 107, 0.9);
-  color: white;
-  cursor: pointer;
-  font-size: 1.2rem;
-  line-height: 1;
-  opacity: 0;
-  transition: var(--transition);
-}
-
-.meal-card:hover .remove-meal-btn {
-  opacity: 1;
-}
-
-.remove-meal-btn:hover {
-  background: #ff6b6b;
-  transform: scale(1.1);
-}
-
-@media (max-width: 768px) {
-  .grid-header,
-  .meal-row {
-    grid-template-columns: 80px repeat(7, 1fr);
-  }
-  
-  .meal-type-label {
-    font-size: 0.8rem;
-  }
-  
-  .day-name {
-    font-size: 0.75rem;
-  }
-  
-  .day-date {
-    font-size: 1rem;
-  }
+/* Show plus icon on empty cell hover */
+div:hover > div[style*="opacity: 0"] {
+  opacity: 1 !important;
 }
 </style>

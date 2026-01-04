@@ -1,28 +1,40 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MealCraft.DTOs;
 
 public class UserDto
 {
     public Guid Id { get; set; }
-    public string Username { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
+    public required string Name { get; set; }
+    public required string Email { get; set; }
     public DateTime CreatedAt { get; set; }
 }
 
 public class RegisterDto
 {
-    public string Username { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
+    [Required(ErrorMessage = "Name is required")]
+    [StringLength(100, ErrorMessage = "Name cannot exceed 100 characters")]
+    public required string Name { get; set; }
+    [Required(ErrorMessage = "Email is required")]
+    [EmailAddress(ErrorMessage = "Invalid email format")]
+    public required string Email { get; set; }
+    [Required(ErrorMessage = "Password is required")]
+    [MinLength(6, ErrorMessage = "Password must be at least 6 characters")]
+    public required string Password { get; set; } 
 }
 
 public class LoginDto
 {
-    public string Email { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
+    [Required(ErrorMessage = "Email is required")]
+    [EmailAddress(ErrorMessage = "Invalid email format")]
+    public required string Email { get; set; }
+    [Required(ErrorMessage = "Password is required")]
+    public required string Password { get; set; } 
 }
 
 public class AuthResponseDto
 {
-    public string Token { get; set; } = string.Empty;
-    public UserDto User { get; set; } = null!;
+    public required string token { get; set; }
+    public required string refreshToken { get; set; }
+    public UserDto user { get; set; } = null!;
 }

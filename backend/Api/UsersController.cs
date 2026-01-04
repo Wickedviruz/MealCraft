@@ -2,6 +2,7 @@ namespace MealCraft.Api;
 
 using Microsoft.AspNetCore.Mvc;
 using MealCraft.Services;
+using MealCraft.Utils;
 using MealCraft.DTOs;
 
 [ApiController]
@@ -19,10 +20,19 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<AuthResponseDto>> Register([FromBody] RegisterDto dto)
     {
         var result = await _userService.Register(dto);
-        if (result == null)
-            return BadRequest(new { message = "User already exists" });
+        if (!result.Success)
+            {
+                return result.ErrorType switch
+                {
+                    ErrorType.Conflict => Conflict(new { message = result.ErrorMessage }),
+                    ErrorType.InvalidCredentials => Unauthorized(new { message = result.ErrorMessage }),
+                    ErrorType.InvalidInput => BadRequest(new { message = result.ErrorMessage }),
+                    ErrorType.InternalError => StatusCode(500, new { message = result.ErrorMessage }),
+                    _ => StatusCode(500, new { message = "Unknown error" })
+                };
+            }
 
-        return Ok(result);
+        return Ok(result.Data);
     }
 
     [HttpPost("login")]

@@ -1,22 +1,22 @@
 <template>
   <div id="app">
     <!-- Loading State -->
-    <div v-if="isLoading" class="loading-overlay">
+    <div v-if="isLoading" class="fixed inset-0 bg-[#fefdf8]/95 flex flex-col items-center justify-center z-[300]">
       <div class="spinner"></div>
-      <p>Laddar recept...</p>
+      <p class="mt-4 text-gray-600">Laddar recept...</p>
     </div>
 
     <!-- Error State -->
-    <div v-if="error" class="error-banner">
-      <p>⚠️ {{ error }}</p>
-      <button @click="retryLoad" class="btn-primary">Försök igen</button>
+    <div v-if="error" class="m-4 bg-red-50 border-2 border-red-400 rounded-lg p-4 text-center">
+      <p class="mb-3 text-red-600">⚠️ {{ error }}</p>
+      <button @click="retryLoad" class="btn btn-primary">Försök igen</button>
     </div>
 
     <!-- Header -->
     <AppHeader />
     
     <!-- Main Content -->
-    <main class="app-main">
+    <main class="flex-1 pb-24">
       <DiscoverView 
         v-if="currentView === 'discover'"
         :currentRecipe="currentRecipe"
@@ -46,6 +46,10 @@
         v-if="currentView === 'add'"
         @save="handleCreateRecipe"
         @cancel="currentView = 'discover'"
+      />
+
+      <MacroCalculator 
+        v-if="currentView === 'macros'"
       />
       
       <WeeklyCalendar 
@@ -98,6 +102,7 @@ import RecipeDetail from './components/recipe/RecipeDetail.vue'
 import WeeklyCalendar from './components/calendar/WeeklyCalendar.vue'
 import MealSelector from './components/calendar/MealSelector.vue'
 import ShoppingList from './components/shopping/ShoppingList.vue'
+import MacroCalculator from './components/macros/MacroCalculator.vue'
 
 // Composables
 import { useRecipes } from './composables/useRecipes.js'

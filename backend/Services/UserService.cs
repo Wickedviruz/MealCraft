@@ -4,6 +4,7 @@ using MealCraft.Database;
 using MealCraft.Models;
 using MealCraft.DTOs;
 using BCrypt.Net;
+using MealCraft.Utils;
 
 public class UserService
 {
@@ -14,22 +15,29 @@ public class UserService
         _db = db;
     }
 
-    public async Task<AuthResponseDto?> Register(RegisterDto dto)
+    public async Task<Result<AuthResponseDto>> Register(RegisterDto dto)
     {
         // Check if user exists
         var existing = await _db.GetUserByEmail(dto.Email);
-        if (existing != null) return null;
+        if (existing != null)
+            {
+                return new Result<AuthResponseDto>
+                {
+                    Success = false,
+                    ErrorMessage = "User already exists",
+                    ErrorType = ErrorType.Conflict
+                };
+            }
 
         // Hash password
         var passwordHash = BCrypt.HashPassword(dto.Password);
 
         var user = new User
         {
-            Username = dto.Username,
             Email = dto.Email,
             PasswordHash = passwordHash,
+            Name = dto.Name,
             CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
         };
 
         var userId = await _db.CreateUser(user);
@@ -38,10 +46,10 @@ public class UserService
         // TODO: Generate JWT token
         var token = "fake-jwt-token";
 
-        return new AuthResponseDto
+        return new Result<AuthResponseDto>
         {
-            Token = token,
-            User = MapToDto(user)
+            Success = true,
+            Data = new AuthResponseDto { user = MapToDto(user), token = token, refreshToken = token }
         };
     }
 
@@ -58,8 +66,9 @@ public class UserService
 
         return new AuthResponseDto
         {
-            Token = token,
-            User = MapToDto(user)
+            user = MapToDto(user),
+            token = token,
+            refreshToken = token
         };
     }
 
@@ -74,8 +83,8 @@ public class UserService
         return new UserDto
         {
             Id = user.Id,
-            Username = user.Username,
             Email = user.Email,
+            Name = user.Name,
             CreatedAt = user.CreatedAt
         };
     }
