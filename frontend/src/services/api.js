@@ -1,4 +1,18 @@
-const API_BASE = 'http://localhost:5000/api';
+const getApiBase = () => {
+  const hostname = window.location.hostname;
+  
+  // Om vi kör lokalt via localhost, använd localhost för API
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return 'http://localhost:5000/api';
+  }
+  
+  // Annars, använd samma IP som vi nådde frontend på
+  return `http://${hostname}:5000/api`;
+};
+
+const API_BASE = getApiBase();
+
+console.log('API Base URL:', API_BASE);
 
 export const recipeApi = {
   // Get all recipes

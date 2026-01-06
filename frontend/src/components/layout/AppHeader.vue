@@ -1,27 +1,11 @@
 <template>
-  <header class="app-header">
-    <h1 class="app-logo">MealCraft</h1>
+  <header class="sticky top-0 z-[100] bg-white border-b border-gray-200 shadow-sm">
+    <div class="flex items-center justify-center h-16 sm:h-20 px-4">
+      <div class="flex items-center gap-3">
+        <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-br from-emerald-500 to-emerald-700 bg-clip-text text-transparent">
+          MealCraft
+        </h1>
+      </div>
+    </div>
   </header>
 </template>
-
-<style scoped>
-.app-header {
-  background: var(--surface);
-  padding: var(--space-md) var(--space-xl);
-  border-bottom: 1px solid var(--border);
-  text-align: center;
-  position: sticky;
-  top: 0;
-  z-index: var(--z-header);
-  box-shadow: var(--shadow-sm);
-}
-
-.app-logo {
-  font-size: 1.75rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-</style>

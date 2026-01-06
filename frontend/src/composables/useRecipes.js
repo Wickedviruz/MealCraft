@@ -15,9 +15,9 @@ export function useRecipes() {
     try {
       const recipes = await recipeApi.getAll()
       allRecipes.value = recipes
-      console.log('✅ Loaded recipes:', recipes.length)
+      console.log('Loaded recipes:', recipes.length)
     } catch (err) {
-      console.error('❌ Failed to load recipes:', err)
+      console.error('Failed to load recipes:', err)
       error.value = 'Kunde inte ladda recept från servern'
     } finally {
       isLoading.value = false
@@ -31,7 +31,7 @@ export function useRecipes() {
       console.log('✅ Recipe created:', saved.title)
       return saved
     } catch (err) {
-      console.error('❌ Failed to create recipe:', err)
+      console.error('Failed to create recipe:', err)
       throw new Error('Kunde inte spara recept: ' + err.message)
     }
   }
@@ -45,7 +45,7 @@ export function useRecipes() {
       }
       return updated
     } catch (err) {
-      console.error('❌ Failed to update recipe:', err)
+      console.error('Failed to update recipe:', err)
       throw new Error('Kunde inte uppdatera recept')
     }
   }
@@ -55,7 +55,7 @@ export function useRecipes() {
       await recipeApi.delete(id)
       allRecipes.value = allRecipes.value.filter(r => r.id !== id)
     } catch (err) {
-      console.error('❌ Failed to delete recipe:', err)
+      console.error('Failed to delete recipe:', err)
       throw new Error('Kunde inte ta bort recept')
     }
   }

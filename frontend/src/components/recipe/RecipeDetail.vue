@@ -1,66 +1,123 @@
 <template>
-  <div class="modal-overlay" @click="$emit('close')">
-    <div class="recipe-detail" @click.stop>
-      <button @click="$emit('close')" class="btn-close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+  <div 
+    style="position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 16px; backdrop-filter: blur(5px);"
+    @click="$emit('close')"
+  >
+    <div 
+      @click.stop
+      style="background: white; border-radius: 16px; max-width: 900px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; animation: slideUp 0.3s ease;"
+    >
+      <!-- Close Button -->
+      <button 
+        @click="$emit('close')"
+        style="position: sticky; top: 16px; right: 16px; float: right; width: 44px; height: 44px; border-radius: 50%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 16px 16px 0 0;"
+        @mouseenter="$event.target.style.transform = 'scale(1.1)'; $event.target.style.background = 'white'"
+        @mouseleave="$event.target.style.transform = 'scale(1)'; $event.target.style.background = 'rgba(255, 255, 255, 0.95)'"
+      >
+        <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="18" y1="6" x2="6" y2="18"/>
           <line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
       </button>
       
-      <div class="detail-image">
-        <img :src="recipe.imageUrl" :alt="recipe.title" />
+      <!-- Image -->
+      <div style="width: 100%; height: 300px; overflow: hidden; border-radius: 16px 16px 0 0;">
+        <img 
+          :src="recipe.imageUrl" 
+          :alt="recipe.title" 
+          style="width: 100%; height: 100%; object-fit: cover;"
+        />
       </div>
       
-      <div class="detail-content">
-        <header class="detail-header">
-          <h1>{{ recipe.title }}</h1>
-          <button @click="$emit('toggle-save')" class="save-btn" :class="{ saved: isSaved }">
-            <svg viewBox="0 0 24 24" fill="currentColor">
+      <!-- Content -->
+      <div style="padding: 32px;">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 20px;">
+          <h1 style="font-size: 32px; font-weight: 800; color: #1f2937; flex: 1;">
+            {{ recipe.title }}
+          </h1>
+          
+          <button 
+            @click="$emit('toggle-save')"
+            style="width: 50px; height: 50px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0;"
+            :style="isSaved 
+              ? 'background: #10b981; color: white; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);'
+              : 'background: #f3f4f6; color: #6b7280;'"
+            @mouseenter="$event.target.style.transform = 'scale(1.1)'"
+            @mouseleave="$event.target.style.transform = 'scale(1)'"
+          >
+            <svg style="width: 24px; height: 24px;" viewBox="0 0 24 24" fill="currentColor">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
             </svg>
           </button>
-        </header>
+        </div>
         
-        <p v-if="recipe.description" class="description">{{ recipe.description }}</p>
+        <p v-if="recipe.description" style="color: #6b7280; line-height: 1.6; margin-bottom: 24px; font-size: 16px;">
+          {{ recipe.description }}
+        </p>
         
-        <div class="meta-grid">
-          <div class="meta-item">
-            <span class="meta-label">Tid</span>
-            <span class="meta-value">{{ recipe.cookTime }} min</span>
+        <!-- Meta Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 16px; margin-bottom: 24px;">
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Tid</span>
+            <span style="font-size: 18px; font-weight: 700; color: #1f2937;">{{ recipe.cookTime }} min</span>
           </div>
-          <div class="meta-item">
-            <span class="meta-label">Portioner</span>
-            <span class="meta-value">{{ recipe.servings }}</span>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Portioner</span>
+            <span style="font-size: 18px; font-weight: 700; color: #1f2937;">{{ recipe.servings }}</span>
           </div>
-          <div v-if="recipe.difficulty" class="meta-item">
-            <span class="meta-label">Svårighet</span>
-            <span class="meta-value">{{ recipe.difficulty }}</span>
+          <div v-if="recipe.difficulty" style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Svårighet</span>
+            <span style="font-size: 18px; font-weight: 700; color: #1f2937;">{{ recipe.difficulty }}</span>
           </div>
-          <div v-if="recipe.calories" class="meta-item">
-            <span class="meta-label">Kalorier</span>
-            <span class="meta-value">{{ recipe.calories }} kcal</span>
+          <div v-if="recipe.calories" style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Kalorier</span>
+            <span style="font-size: 18px; font-weight: 700; color: #1f2937;">{{ recipe.calories }} kcal</span>
           </div>
         </div>
         
-        <div v-if="recipe.tags && recipe.tags.length" class="tags">
-          <span v-for="tag in recipe.tags" :key="tag" class="tag">{{ tag }}</span>
+        <!-- Tags -->
+        <div v-if="recipe.tags && recipe.tags.length" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px;">
+          <span 
+            v-for="tag in recipe.tags" 
+            :key="tag" 
+            style="padding: 8px 16px; background: #d1fae5; color: #047857; border-radius: 8px; font-size: 14px; font-weight: 600;"
+          >
+            {{ tag }}
+          </span>
         </div>
         
-        <section class="section">
-          <h2>Ingredienser</h2>
-          <ul class="ingredients-list">
-            <li v-for="ing in recipe.ingredients" :key="ing.id">
-              <span class="amount">{{ ing.amount }} {{ ing.unit }}</span>
-              <span class="name">{{ ing.name }}</span>
+        <!-- Ingredients -->
+        <section style="margin-bottom: 32px;">
+          <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 16px; color: #1f2937;">Ingredienser</h2>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+            <li 
+              v-for="ing in recipe.ingredients" 
+              :key="ing.id"
+              style="display: flex; gap: 16px; padding: 12px; border-radius: 8px; transition: background 0.2s;"
+              @mouseenter="$event.target.style.background = '#f9fafb'"
+              @mouseleave="$event.target.style.background = 'transparent'"
+            >
+              <span style="font-weight: 700; color: #10b981; min-width: 80px;">
+                {{ ing.amount }} {{ ing.unit }}
+              </span>
+              <span style="color: #1f2937;">{{ ing.name }}</span>
             </li>
           </ul>
         </section>
         
-        <section class="section">
-          <h2>Instruktioner</h2>
-          <ol class="instructions-list">
-            <li v-for="(step, index) in recipe.instructions" :key="index">
+        <!-- Instructions -->
+        <section>
+          <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 16px; color: #1f2937;">Instruktioner</h2>
+          <ol style="list-style: none; display: flex; flex-direction: column; gap: 20px; counter-reset: step;">
+            <li 
+              v-for="(step, index) in recipe.instructions" 
+              :key="index"
+              style="display: flex; gap: 16px; padding-left: 52px; position: relative; counter-increment: step; line-height: 1.6; color: #374151;"
+            >
+              <span style="content: counter(step); position: absolute; left: 0; width: 36px; height: 36px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">
+                {{ index + 1 }}
+              </span>
               {{ step.text }}
             </li>
           </ol>
@@ -85,237 +142,15 @@ defineProps({
 defineEmits(['close', 'toggle-save'])
 </script>
 
-<style scoped>
-.recipe-detail {
-  background: var(--surface);
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-  max-width: 900px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: slideUp 0.3s ease;
-}
-
+<style>
 @keyframes slideUp {
   from {
-    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+    transform: translateY(20px);
   }
   to {
-    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    transform: translateY(0);
   }
-}
-
-@media (min-width: 768px) {
-  .recipe-detail {
-    border-radius: var(--radius-xl);
-    position: relative;
-    left: 0;
-    transform: none;
-    max-height: 85vh;
-  }
-}
-
-.btn-close {
-  position: absolute;
-  top: var(--space-md);
-  right: var(--space-md);
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  transition: var(--transition);
-}
-
-.btn-close:hover {
-  background: white;
-  transform: scale(1.1);
-}
-
-.btn-close svg {
-  width: 20px;
-  height: 20px;
-}
-
-.detail-image {
-  width: 100%;
-  height: 300px;
-  overflow: hidden;
-}
-
-.detail-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.detail-content {
-  padding: var(--space-xl);
-}
-
-.detail-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: var(--space-md);
-  margin-bottom: var(--space-md);
-}
-
-.detail-header h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  flex: 1;
-}
-
-.save-btn {
-  width: 50px;
-  height: 50px;
-  border-radius: var(--radius-full);
-  border: 2px solid var(--border);
-  background: var(--surface);
-  color: var(--text-light);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition);
-}
-
-.save-btn:hover {
-  transform: scale(1.1);
-}
-
-.save-btn.saved {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: white;
-}
-
-.save-btn svg {
-  width: 24px;
-  height: 24px;
-}
-
-.description {
-  color: var(--text-light);
-  line-height: 1.6;
-  margin-bottom: var(--space-lg);
-}
-
-.meta-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: var(--space-md);
-  margin-bottom: var(--space-lg);
-}
-
-.meta-item {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.meta-label {
-  font-size: 0.85rem;
-  color: var(--text-light);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.meta-value {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.tags {
-  display: flex;
-  gap: var(--space-sm);
-  flex-wrap: wrap;
-  margin-bottom: var(--space-lg);
-}
-
-.tag {
-  padding: 0.5rem 1rem;
-  background: var(--primary-light);
-  color: var(--primary-dark);
-  border-radius: var(--radius-md);
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-.section {
-  margin-bottom: var(--space-xl);
-}
-
-.section h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: var(--space-md);
-}
-
-.ingredients-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.ingredients-list li {
-  display: flex;
-  gap: var(--space-md);
-  padding: var(--space-sm);
-  border-radius: var(--radius-sm);
-  transition: var(--transition);
-}
-
-.ingredients-list li:hover {
-  background: var(--background);
-}
-
-.ingredients-list .amount {
-  font-weight: 700;
-  color: var(--primary);
-  min-width: 80px;
-}
-
-.instructions-list {
-  counter-reset: step;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.instructions-list li {
-  counter-increment: step;
-  display: flex;
-  gap: var(--space-md);
-  padding-left: calc(var(--space-xl) + var(--space-md));
-  position: relative;
-}
-
-.instructions-list li::before {
-  content: counter(step);
-  position: absolute;
-  left: 0;
-  width: var(--space-xl);
-  height: var(--space-xl);
-  background: var(--primary);
-  color: white;
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
 }
 </style>
