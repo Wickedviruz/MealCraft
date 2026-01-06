@@ -2,11 +2,32 @@ using System.Threading.RateLimiting;
 using MealCraft.Database;
 using MealCraft.Services;
 using MealCraft.Middleware;
+using MealCraft.Utils;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Bind till alla nätverksgränssnitt
 builder.WebHost.UseUrls("http://0.0.0.0:5000");
+
+// Validera att kritiska settings finns
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException(
+        "Database connection string not configured. " +
+        "Copy appsettings.Development.json.example to appsettings.Development.json and configure it."
+    );
+}
+
+var jwtSecret = builder.Configuration["Jwt:Secret"];
+if (string.IsNullOrEmpty(jwtSecret) || jwtSecret.Length < 32)
+{
+    throw new InvalidOperationException(
+        "JWT Secret must be configured and at least 32 characters long. " +
+        "Set it in appsettings.Development.json"
+    );
+}
 
 // ratelimiting (din kod oförändrad)
 builder.Services.AddRateLimiter(rateLimiterOptions =>
@@ -78,10 +99,16 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1",
         Description = "Meal planning and recipe management API"
     });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
 });
 
 builder.Services.AddSingleton<DatabaseContext>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<JwtHelper>();
 //builder.Services.AddScoped<RecipeService>();
 //builder.Services.AddScoped<MealPlanService>();
 //builder.Services.AddScoped<ShoppingListService>();
